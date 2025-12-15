@@ -1,0 +1,12 @@
+.pink-translation {
+  /* Default color fallback, but JS will override inline */
+  color: #ff69b4; 
+  font-weight: bold !important;
+  margin-left: 5px;
+}
+
+.translation-failure {
+  color: #ff0000 !important;
+  font-weight: bold !important;
+  margin-left: 5px;
+}

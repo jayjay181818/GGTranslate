@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "GGTranslate",
+  "version": "0.1.0",
+  "description": "Automatically translates non-English Twitch chat messages into English.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://translate.googleapis.com/*",
+    "https://translation.googleapis.com/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "*://*.twitch.tv/*"
+  ],
+  "action": {
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.twitch.tv/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html", "popup.js"],
+      "matches": ["*://*.twitch.tv/*"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GGTranslate Settings</title>
+  <style>
+    /* Dark Mode & Modern Reset */
+    :root {
+      --bg-color: #18181b;
+      --card-bg: #1f1f23;
+      --text-color: #efeff1;
+      --text-muted: #adadb8;
+      --accent-color: #9146FF;
+      --accent-hover: #772ce8;
+      --input-bg: #0e0e10;
+      --input-border: #3a3a3d;
+      --border-radius: 6px;
+      --danger-color: #e91916;
+      --success-color: #00f593;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-size: 13px;
+      overflow-y: auto;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3a3a3d;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5a5a5d;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      background-color: var(--card-bg);
+      padding: 15px 20px;
+      border-bottom: 1px solid #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .close-btn:hover {
+      color: var(--text-color);
+    }
+
+    /* Content */
+    .content {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Sections */
+    .section {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      margin-bottom: 0; /* Handled by grid gap */
+      border: 1px solid #2d2d31;
+    }
+    
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      color: var(--text-color);
+      border-bottom: 1px solid var(--input-border);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Form Elements */
+    .setting-item {
+      margin-bottom: 15px;
+    }
+    .setting-item:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    input[type="text"], 
+    input[type="number"], 
+    input[type="password"], 
+    select, 
+    textarea {
+      width: 100%;
+      padding: 8px 10px;
+      box-sizing: border-box;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--border-radius);
+      color: var(--text-color);
+      font-family: inherit;
+      font-size: 13px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(145, 70, 255, 0.2);
+    }
+
+    input[type="checkbox"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+    input[type="checkbox"]:checked {
+      background-color: var(--accent-color);
+      border-color: var(--accent-color);
+    }
+    input[type="checkbox"]:checked::after {
+      content: '\2714';
+      font-size: 12px;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    input[type="color"] {
+      cursor: pointer;
+      height: 32px;
+      width: 60px;
+      padding: 2px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--border-radius);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.4;
+    }
+
+    /* Buttons */
+    .action-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .action-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    /* Helper Text */
+    small {
+      color: #787880;
+      font-size: 11px;
+      display: block;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* Specific Layouts */
+    .priority-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .priority-label {
+      width: 30px;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .priority-row select {
+      flex: 1;
+    }
+
+    /* Progress Bars */
+    .usage-container {
+      background-color: var(--input-bg);
+      border-radius: 4px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .progress-track {
+      background: #3a3a3d;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Status Message */
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 12px;
+      min-height: 18px;
+      font-weight: 500;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 0 20px 20px 20px;
+    }
+
+  </style>
+</head>
+<body>
+  
+  <div class="header">
+      <h1>GGTranslate</h1>
+      <button id="closeBtn" class="close-btn" title="Close">&times;</button>
+    </div>
+
+  <div class="content">
+    
+    <!-- LEFT COLUMN -->
+    <div class="column">
+        <!-- General Settings -->
+        <div class="section">
+          <h2>General</h2>
+          <div class="setting-item row">
+            <label for="enabled" style="margin:0; font-size: 14px; color: var(--text-color);">Enable Translation</label>
+            <input type="checkbox" id="enabled">
+          </div>
+          
+          <div class="setting-item row">
+            <label for="color" style="margin:0; font-size: 14px; color: var(--text-color);">Translation Color</label>
+            <input type="color" id="color">
+          </div>
+        </div>
+
+        <!-- Priority Section -->
+        <div class="section">
+          <h2>Engine Priority</h2>
+          <div class="setting-item">
+            <div class="priority-row">
+              <span class="priority-label">1st</span>
+              <select id="priority1">
+                <option value="gtx">Google Translate (Free)</option>
+                <option value="official">Google Cloud (Official)</option>
+                <option value="local">Local LLM (LM Studio)</option>
+              </select>
+            </div>
+            <div class="priority-row">
+              <span class="priority-label">2nd</span>
+              <select id="priority2">
+                <option value="gtx">Google Translate (Free)</option>
+                <option value="official">Google Cloud (Official)</option>
+                <option value="local">Local LLM (LM Studio)</option>
+              </select>
+            </div>
+            <div class="priority-row">
+              <span class="priority-label">3rd</span>
+              <select id="priority3">
+                <option value="gtx">Google Translate (Free)</option>
+                <option value="official">Google Cloud (Official)</option>
+                <option value="local">Local LLM (LM Studio)</option>
+              </select>
+            </div>
+            <small>Define the order of translation engines to attempt.</small>
+          </div>
+        </div>
+        
+        <!-- Ignored Users Section -->
+        <div class="section">
+          <h2>Ignored Users</h2>
+          <div class="setting-item">
+            <label for="ignoredUsers">Ignored Usernames (Comma separated)</label>
+            <textarea id="ignoredUsers" placeholder="nightbot, streamelements, testuser"></textarea>
+            <small>Messages from these users will not be translated.</small>
+          </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="column">
+        <!-- Local LLM Section -->
+        <div class="section">
+          <h2>Local LLM (LM Studio)</h2>
+          <div class="setting-item">
+            <label for="localUrl">Server URL</label>
+            <input type="text" id="localUrl" placeholder="http://localhost:1234/v1/chat/completions">
+          </div>
+          <div class="setting-item">
+            <label for="localModel">Model Name</label>
+            <input type="text" id="localModel" placeholder="local-model">
+          </div>
+          <div class="setting-item">
+            <label for="localPrompt">System Prompt</label>
+            <textarea id="localPrompt" placeholder="You are a professional translator..."></textarea>
+          </div>
+        </div>
+
+        <!-- GTX Section -->
+        <div class="section">
+          <h2>Google Translate (Free)</h2>
+          <div class="setting-item">
+            <label for="gtxLimit">Daily Limit (Requests)</label>
+            <input type="number" id="gtxLimit" placeholder="1000" min="1">
+          </div>
+
+          <div class="setting-item">
+            <label for="gtxRpm">Max Speed (Requests/Min)</label>
+            <input type="number" id="gtxRpm" placeholder="12" min="1" max="120">
+            <small>Controls delay between translations to prevent blocking.</small>
+          </div>
+
+          <div id="gtx-usage-container" class="usage-container" style="display: none;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                <label style="margin:0;">Daily Usage</label>
+            </div>
+            <div class="progress-track">
+              <div id="gtx-usage-bar" class="progress-bar" style="background: #2196F3; width: 0%;"></div>
+            </div>
+            <div class="progress-text">
+              <span id="gtx-usage-text">0 / 1000</span>
+              <span>Resets: Midnight</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official API Section -->
+        <div class="section">
+          <h2>Google Cloud (Official)</h2>
+          <div class="setting-item">
+            <label for="apiKey">API Key</label>
+            <input type="password" id="apiKey" placeholder="Paste API Key here">
+          </div>
+
+          <div class="setting-item">
+            <label for="officialDailyLimit">Daily Character Limit</label>
+            <input type="number" id="officialDailyLimit" placeholder="50000" min="1">
+          </div>
+
+          <div class="setting-item">
+            <label for="officialMonthlyLimit">Monthly Free Tier Limit</label>
+            <input type="number" id="officialMonthlyLimit" placeholder="500000" min="1">
+          </div>
+
+          <div id="usage-container" class="usage-container">
+            <!-- Daily Bar -->
+            <div style="margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                 <label style="margin:0;">Daily Usage</label>
+              </div>
+              <div class="progress-track">
+                <div id="official-daily-bar" class="progress-bar" style="background: #9c27b0; width: 0%;"></div>
+              </div>
+              <div class="progress-text">
+                <span id="official-daily-text">0 / 50,000</span>
+                <span>Resets: Midnight</span>
+              </div>
+            </div>
+
+            <!-- Monthly Bar -->
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                 <label style="margin:0;">Monthly Usage</label>
+              </div>
+              <div class="progress-track">
+                <div id="usage-bar" class="progress-bar" style="background: #00f593; width: 0%;"></div>
+              </div>
+              <div class="progress-text">
+                <span id="usage-text">0 / 500,000</span>
+                <span>Reset: 1st of Month</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <button id="save" class="action-btn">Save Settings</button>
+    <div id="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
